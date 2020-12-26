@@ -1,0 +1,31 @@
+{% block body %}
+<html>
+    {% include 'template.html' %}
+    
+</div>
+<div class="container topMargin">
+<H1>Connectez vous à votre compte</H1>
+
+<form method="POST" action="">
+    {{form.csrf_token}}
+    {{ form.email(class_="inputbox") }}
+    {{ form.password(class_="inputbox") }}
+    <div class="login-btn-connexion">
+        <input type="hidden" name="action" value="1">
+        <input type="submit" value="Se Connecter" class="btnConfirm">
+        <button onclick="location.href='subscribe'" class="btnConfirm">Créer un compte gratuitement</button>
+    </div>
+</form>
+<div class="englobe-line-separator ctCenter">
+</div>
+
+    <!--<button class="btnConfirm" onclick="location.href='{url_facebook}'"><img src="images/facebook-icon.png"> Se connecter avec Facebook</button>-->
+
+</div>
+</body>
+
+
+    {% include 'footer.html' %}
+{% endblock %}
+<!-- Mirrored from www.shua-creation.com/clone/pas/ by HTTrack Website Copier/3.x [XR&CO'2014], Mon, 30 Nov 2020 18:37:49 GMT -->
+</html>
