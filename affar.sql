@@ -1,11 +1,11 @@
 -- phpMyAdmin SQL Dump
--- version 4.9.1
+-- version 4.8.3
 -- https://www.phpmyadmin.net/
 --
 -- Hôte : 127.0.0.1
--- Généré le :  ven. 25 déc. 2020 à 00:58
--- Version du serveur :  10.4.8-MariaDB
--- Version de PHP :  7.1.32
+-- Généré le :  sam. 26 déc. 2020 à 23:03
+-- Version du serveur :  10.1.36-MariaDB
+-- Version de PHP :  7.2.11
 
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET AUTOCOMMIT = 0;
@@ -21,6 +21,27 @@ SET time_zone = "+00:00";
 --
 -- Base de données :  `affar`
 --
+
+-- --------------------------------------------------------
+
+--
+-- Structure de la table `admin`
+--
+
+CREATE TABLE `admin` (
+  `id` int(11) NOT NULL,
+  `email` varchar(255) COLLATE utf8_bin NOT NULL,
+  `password` varchar(255) COLLATE utf8_bin NOT NULL,
+  `lastName` varchar(30) COLLATE utf8_bin NOT NULL,
+  `firstName` varchar(20) COLLATE utf8_bin NOT NULL
+) ENGINE=InnoDB DEFAULT CHARSET=utf8 COLLATE=utf8_bin;
+
+--
+-- Déchargement des données de la table `admin`
+--
+
+INSERT INTO `admin` (`id`, `email`, `password`, `lastName`, `firstName`) VALUES
+(1, 'ala@gmail.com', '1234', 'Torkhani', 'Ala');
 
 -- --------------------------------------------------------
 
@@ -137,6 +158,12 @@ INSERT INTO `users` (`id`, `email`, `pseudo`, `phone`, `password`) VALUES
 --
 
 --
+-- Index pour la table `admin`
+--
+ALTER TABLE `admin`
+  ADD PRIMARY KEY (`id`);
+
+--
 -- Index pour la table `images`
 --
 ALTER TABLE `images`
@@ -165,6 +192,12 @@ ALTER TABLE `users`
 --
 
 --
+-- AUTO_INCREMENT pour la table `admin`
+--
+ALTER TABLE `admin`
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=2;
+
+--
 -- AUTO_INCREMENT pour la table `images`
 --
 ALTER TABLE `images`
@@ -186,7 +219,7 @@ ALTER TABLE `uploads`
 -- AUTO_INCREMENT pour la table `users`
 --
 ALTER TABLE `users`
-  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=48;
+  MODIFY `id` int(4) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=50;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
