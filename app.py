@@ -79,7 +79,7 @@ def login():
             if result > 0:
                     data = cur.fetchone()
                     session['log']=True
-                    session['id']=data[0]                   
+                    #session['id']=data[0]                   
                     flash('you are successfully loggin in ','success')
                     return render_template('home.html')
             else :
