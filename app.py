@@ -31,18 +31,11 @@ app.config.update(
     DROPZONE_MAX_FILE_SIZE=3,
     DROPZONE_MAX_FILES=5,
     DROPZONE_IN_FORM=True,
-    DROPZONE_UPLOAD_ON_CLICK=True,
-    DROPZONE_UPLOAD_ACTION='handle_upload',  # URL or endpoint
-    DROPZONE_UPLOAD_BTN_ID='submit',
+    DROPZONE_UPLOAD_ON_CLICK=False,
+ 
 )
 
 dropzone = Dropzone(app)
-
-
-
-
-def allowed_file(filename):
- return '.' in filename and filename.rsplit('.', 1)[1].lower() in ALLOWED_EXTENSIONS
 
 @app.route('/')
 def index():
@@ -79,7 +72,7 @@ def login():
             if result > 0:
                     data = cur.fetchone()
                     session['log']=True
-                    #session['id']=data[0]                   
+                    session['id']=data['id']                   
                     flash('you are successfully loggin in ','success')
                     return render_template('home.html')
             else :
@@ -105,12 +98,12 @@ def upload():
 def handle_upload():
     cur = mysql.connection.cursor()
     now = datetime.now() 
-    for key, f in request.files.items():  # use request.files.items() in Python3
+    for key, f in request.files.items(): 
             if key.startswith('file'):
                 f.save(os.path.join(app.config['UPLOADED_PATH'], f.filename))
                 maxx=cur.execute("SELECT MAX(id_produit)  FROM produit")
                 result= cur.fetchone() 
-                cur.execute("INSERT INTO images (source, id_produit) VALUES (%s, %s)",[f.filename, result[0]+1])
+                cur.execute("INSERT INTO images (source, id_produit) VALUES (%s, %s)",[f.filename, result['MAX(id_produit)']+1])
                 mysql.connection.commit()
     return '', 204
 
