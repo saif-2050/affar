@@ -35,7 +35,9 @@
             {{ dropzone.create() }}
             
 
-            
+            <input type="submit" id="upload" value="Upload Images" formaction="{{ url_for('handle_upload') }}">
+            <br>
+            <br>
 
 
             <label>Ville</label>
@@ -77,7 +79,50 @@
         </form>
     </div>
 {{ dropzone.load_js() }}
-{{ dropzone.config() }}
+{{ dropzone.config(custom_init='dz = this;
+  $("#submit").click(function(event){
+  if((dz.files.length) == 0){
+    alert("Choisir des images s il vous plait ");
+    event.preventDefault();
+    
+  }
+  else if (dz.getUploadingFiles().length === 0 && dz.getQueuedFiles().length === 0) {
+    
+  }
+  else{
+    alert("il faut uploader au minimum 2 images");
+    event.preventDefault();
+  }
+ 
+});
+
+  $("#upload").click(function(event){
+  if((dz.files.length) < 2){
+    event.preventDefault();
+      alert("Ajouter au Mininum 2 Images");
+     
+      
+  }
+ 
+  else{
+    document.getElementById("upload").addEventListener("click", function handler(e) {
+        e.currentTarget.removeEventListener(e.type, handler);
+        e.preventDefault();
+        e.stopPropagation();
+        dz.processQueue();
+    });
+    this.on("queuecomplete", function(file) {
+        // Called when all files in the queue finish uploading.
+        e.preventDefault();
+        document.getElementById("upload").click();
+
+    }); 
+   
+
+  }
+  
+}); ',
+                     custom_options=' addRemoveLinks: true ,uploadMultiple: true, url: "/upload",autoProcessQueue: false') }}
 
 
 {% include 'footer.html' %}
