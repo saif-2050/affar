@@ -32,8 +32,7 @@ app.config.update(
     DROPZONE_MAX_FILES=5,
     DROPZONE_IN_FORM=True,
     DROPZONE_UPLOAD_ON_CLICK=True,
-    DROPZONE_UPLOAD_ACTION='handle_upload',  # URL or endpoint
-    DROPZONE_UPLOAD_BTN_ID='submit',
+    
 )
 
 dropzone = Dropzone(app)
