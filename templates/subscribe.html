@@ -11,107 +11,37 @@
 il vous suffit de remplir tous les champs du formulaire ci-dessous, puis Rendez vous
 dans votre messagerie pour activer votre compte en cliquant sur le lien envoyé.
 </p>
-<form method="POST" id="myForm" action="">
-    {{form.csrf_token}}
-    <select name="type_account" id="type_account" onchange="accountType();" class="inputbox">
-        <option value="particulier">Particulier</option>
-        <option value="professionel">Professionel</option>
-    </select>   
-    <div id="particulier-name">
-        {{ form.pseudo(class_="inputbox") }}
-    </div>
-                
-                {{ form.email(class_="inputbox") }}
-                {{ form.phone(class_="inputbox") }}
-                {{ form.password(class_="inputbox") }}
-                {{ form.confirm(class_="inputbox") }}
-    <input type="submit" value="Créer mon compte" class="btnConfirm">
+{% from "includes/_formhelpers.html" import render_field %}
+    <form method="POST" action="" >
+    
+            {{render_field(form.pseudo, class_="inputbox")}}
+            <br><br>
+       
+            {{render_field(form.email, class="inputbox")}}
+      
+            <br><br>
+     
+            {{render_field(form.password, class="inputbox")}}
+     
+            <br><br>
+        
+            {{render_field(form.confirm, class="inputbox")}}
+            <br><br>
+
+            <div class="form-row">
+            {{render_field(form.phone, class="inputbox" )}}
+              </div>
+      <br><br><br>
+
+
+        <p>
+            <input type="submit" value="Créer mon compte" class="btnConfirm">
+        </p>
+    </form>
     
     </div>
 </form>
-<script>
-function accountType()
-{
-    if($('#type_account').val() == 'particulier')
-    {
-        $('#particulier-name').html('<input type="text" id="pseudo" name="pseudo" placeholder="Votre pseudo" class="inputbox" required>');
-    }
-    else
-    {
-        $('#particulier-name').html('<input type="text" id="pseudo" name="pseudo" placeholder="Nom de votre entreprise" class="inputbox" required>');
-    }
-}
-
-function checkform()
-{
-    var error = 0;
-    var email = $('#email').val();
-    var pseudo = $('#pseudo').val();
-    var password = $('#password').val();
-    var confirm_password = $('#confirm_password').val();
-    var accept = $('#accept').attr('checked');
-    
-    $('#email').css('border','1px solid #dddddd');
-    $('#pseudo').css('border','1px solid #dddddd');
-    $('#password').css('border','1px solid #dddddd');
-    $('#confirm_password').css('border','1px solid #dddddd');
-    $('#errorconfirm').html('');
-    $('#erroremail').html('');
-    $('#errorcheck').html('');
-    
-    if(email == '')
-    {
-        error = 1;
-        $('#email').css('border','1px solid #ff0000');
-    }
-    
-    if(pseudo == '')
-    {
-        error = 1;
-        $('#pseudo').css('border','1px solid #ff0000');
-    }
-    
-    if(confirm_password == '')
-    {
-        error = 1;
-        $('#confirm_password').css('border','1px solid #ff0000');
-    }
-    
-    if(accept == '')
-    {
-        error = 1;
-        $('#errorcheck').html('<font color=red><b>Vous devez accepter les conditions générale pour créer un compte</b></font><br>');
-    }
-    
-    if(password != confirm_password)
-    {
-        error = 1;
-        $('#password').css('border','1px solid #ff0000');
-        $('#confirm_password').css('border','1px solid #ff0000');
-        $('#errorconfirm').html('<font color=red><b>Le mot de passe ne correspond pas à la confirmation</b></font>');
-    }		
-    
-    if(error == 0)
-    {
-        $.post("api/checkemail308d.html?email="+encodeURI(email), function( data ) 
-        {
-            if(data == 'ok')
-            {
-                document.getElementById("myForm").submit();
-            }
-            else
-            {
-                $('#erroremail').html('<font color=red><b>Cette email est déjà utiliser par un autre compte</b></font>');
-            }
-        });
-        return false;
-    }
-    else
-    {
-        return false;
-    }
-}
-</script></div>
+</div>
 </body>
 
 {% include 'footer.html' %}
