@@ -36,6 +36,27 @@ app.config.update(
 dropzone = Dropzone(app)
 
 
+def is_logged_in(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if 'logged_in' in session:
+            return f(*args, *kwargs)
+        else:
+            return redirect(url_for('login'))
+
+    return wrap
+
+#update 0.1
+
+def not_logged_in(f):
+    @wraps(f)
+    def wrap(*args, **kwargs):
+        if 'logged_in' in session:
+            return redirect(url_for('index'))
+        else:
+            return f(*args, *kwargs)
+
+    return wrap
 
 
 def allowed_file(filename):
