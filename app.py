@@ -65,24 +65,31 @@ def allowed_file(filename):
 @app.route('/')
 def index():
     return render_template('home.html')
-@app.route('/subscribe', methods=["GET", "POST"])
+
+@app.route('/subscribe', methods=['GET', 'POST'])
+@not_logged_in
 def subscribe():
-    form = MyForm()
-    if request.method =="POST" :
-            email= request.form.get("email")
-            pseudo=request.form.get("pseudo")
-            phone =request.form.get("phone")
-            password = request.form.get("password")
-            confirm = request.form.get("confirm")
-            if password == confirm:
-                    cur = mysql.connection.cursor()
-                    cur.execute("INSERT INTO users (email, pseudo, phone ,password) VALUES (%s,%s,%s,%s)", (email, pseudo, phone ,password))
-                    mysql.connection.commit()
-                    cur.close()
-                    flash('you are successfully registered','success')
-                    return redirect(url_for('login'))
-            else :
-                return render_template('subscribe.html', form=form)
+    form = RegisterForm(request.form)
+    if request.method == 'POST' and form.validate():
+        pseudo = form.pseudo.data
+        email = form.email.data
+        password = form.password.data
+        confirm = form.confirm.data
+        phone = form.phone.data
+
+        # Create Cursor
+        cur = mysql.connection.cursor()
+        cur.execute("INSERT INTO users (email, pseudo, phone ,password) VALUES (%s,%s,%s,%s)", (email, pseudo, phone ,password))
+
+        # Commit cursor
+        mysql.connection.commit()
+
+        # Close Connection
+        cur.close()
+
+        flash('You are now registered and can login', 'success')
+
+        return redirect(url_for('login'))
     return render_template('subscribe.html', form=form)
 
 @app.route('/login', methods=["GET", "POST"])
