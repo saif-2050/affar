@@ -1,11 +1,12 @@
 import os
 from flask import Flask ,render_template,request,redirect,url_for,flash,session
-from forms import MyForm 
+from forms import MyForm ,RegisterForm
+from wtforms import Form, StringField, TextAreaField, PasswordField, validators, SelectField
 from flask_mysqldb import MySQL
 from flask_dropzone import Dropzone
 from werkzeug.utils import secure_filename
 from admin_forms import adminlogin
-
+from functools import wraps #update 0.1
 import urllib.request
 from datetime import datetime
 basedir = os.path.abspath(os.path.dirname(__file__))
@@ -29,10 +30,7 @@ app.config.update(
     # Flask-Dropzone config:
     DROPZONE_ALLOWED_FILE_TYPE='image',
     DROPZONE_MAX_FILE_SIZE=3,
-    DROPZONE_MAX_FILES=5,
-    DROPZONE_IN_FORM=True,
-    DROPZONE_UPLOAD_ON_CLICK=True,
-    
+    DROPZONE_MAX_FILES=5,   
 )
 
 dropzone = Dropzone(app)
