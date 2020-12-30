@@ -91,6 +91,7 @@ def subscribe():
     return render_template('subscribe.html', form=form)
 
 @app.route('/login', methods=["GET", "POST"])
+@not_logged_in #update 0.1
 def login():
     form = MyForm()
     if request.method =="POST" :
@@ -101,8 +102,9 @@ def login():
             
             if result > 0:
                     data = cur.fetchone()
+                    session['logged_in'] = True #update 0.1
                     session['log']=True
-                    session['id']=data[0]                   
+                    session['id']=data['id']                    
                     flash('you are successfully loggin in ','success')
                     return render_template('home.html')
             else :
@@ -111,6 +113,7 @@ def login():
     return render_template('login.html', form=form)
 
 @app.route('/logout', methods=["GET", "POST"])
+
 def logout():
     session.clear()
     flash("Vous étes deconnecte","primary")
@@ -118,6 +121,7 @@ def logout():
 
 
 @app.route("/deposerAnnonce",methods=["POST","GET"])
+@is_logged_in #update 0.1
 def upload():
     form = MyForm()
      
@@ -133,7 +137,7 @@ def handle_upload():
                 f.save(os.path.join(app.config['UPLOADED_PATH'], f.filename))
                 maxx=cur.execute("SELECT MAX(id_produit)  FROM produit")
                 result= cur.fetchone() 
-                cur.execute("INSERT INTO images (source, id_produit) VALUES (%s, %s)",[f.filename, result[0]+1])
+                cur.execute("INSERT INTO images (source, id_produit) VALUES (%s, %s)",[f.filename, result['MAX(id_produit)']+1])
                 mysql.connection.commit()
     return '', 204
 
@@ -146,7 +150,7 @@ def handle_form():
     now = datetime.now() 
     numero=request.form.get('phone')
     #ville= request.form.get('ville')   
-    etat=1
+    etat=0 # update 0.1
     cur = mysql.connection.cursor()
     cur.execute("INSERT INTO produit (id,title,categorie,description,prix,date_ajout,numero,etat) VALUES (%s,%s,%s,%s,%s,%s,%s,%s)", (session['id'],title, categorie, description ,prix,now,numero,etat))
     mysql.connection.commit()
