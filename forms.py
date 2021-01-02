@@ -29,7 +29,7 @@ class RegisterForm(Form):
     categorie = SelectField(label="Categorie : ", validators=[DataRequired()], choices=[('', 'Informatique & Multimedia '),('0','Telephone'),('1','ordinateur portable'),('2','accessoire informatique')] )
     description= TextAreaField(label="Description de l'annonce : ", validators=[DataRequired()])
     prix=StringField(label="Prix :", validators=[DataRequired() ] )
-       
+   
 
 
 
